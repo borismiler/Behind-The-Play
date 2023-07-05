@@ -1,0 +1,9 @@
+<p>home-component works!</p>
+<div *ngIf="!isAuthenticated()">
+  <app-login></app-login>
+</div>
+
+<div *ngIf="isAuthenticated()">
+  <p>You are Authenticated</p>
+  <button (click)="getCurrentSongPlaying()">Get Current Playing Song</button>
+</div>
