@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import SpotifyWebApi from 'spotify-web-api-node';
-import { SpotifyAuthService } from './spotify-auth.service';
+import { CurrentPlaybackResponse, TrackItem } from '../model/spotifyTypes';
+import { setCookie } from 'typescript-cookie';
+import { SpotifyService } from './spotify.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpotifyContentService {
-  private spotifyService: SpotifyWebApi;
-  private authService: SpotifyAuthService;
-  constructor() {
-    this.authService = new SpotifyAuthService();
-    this.spotifyService = this.authService.getAuthenticatedApi();
+  private spotifyContentApi: SpotifyWebApi;
+  constructor(private authenticateSpotifyService: SpotifyService) {
+    this.spotifyContentApi = authenticateSpotifyService.getAuthenticatedApi();
   }
+  async getContentPlaying(): Promise<TrackItem | undefined> {
+    let currTrack: TrackItem | undefined = undefined;
 
-  async getContentPlaying() {
-    let x = {};
-    await this.spotifyService.getMyCurrentPlayingTrack().then((response) => {
-      x = response;
+    await this.spotifyContentApi.getMyCurrentPlayingTrack().then((res) => {
+      currTrack = res.body.item as TrackItem;
     });
 
-    return x;
+    return currTrack;
   }
 }

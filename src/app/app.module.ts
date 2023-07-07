@@ -6,6 +6,9 @@ import { LoginComponent } from './login/login.component';
 import { CallbackComponent } from './callback/callback.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponentComponent } from './home-component/home-component.component';
+import { SpotifyService } from './spotify.service';
+import { SpotifyContentService } from './spotify-content.service';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 @NgModule({
   declarations: [

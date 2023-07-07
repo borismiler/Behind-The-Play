@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { SpotifyAuthService } from '../spotify-auth.service';
+import { SpotifyService } from '../spotify.service';
 import { SpotifyContentService } from '../spotify-content.service';
+import { TrackItem } from '../../model/spotifyTypes';
 
 @Component({
   selector: 'app-home-component',
@@ -8,18 +9,22 @@ import { SpotifyContentService } from '../spotify-content.service';
   styleUrls: ['./home-component.component.scss'],
 })
 export class HomeComponentComponent {
-  private spotifyApi = new SpotifyContentService();
-  private authService = new SpotifyAuthService();
+  constructor(
+    private spotifyService: SpotifyService,
+    private spotifyApi: SpotifyContentService
+  ) {}
 
   ngOnInit() {}
 
   isAuthenticated() {
-    console.log(this.authService.getAuth());
-    return this.authService.getAuth();
+    return this.spotifyService.getAuth();
   }
 
   async getCurrentSongPlaying() {
-    const content = await this.spotifyApi.getContentPlaying();
-    console.log(content);
+    console.log('start');
+    const currTrack: TrackItem | undefined =
+      await this.spotifyApi.getContentPlaying();
+    console.log('end');
+    console.log(currTrack);
   }
 }

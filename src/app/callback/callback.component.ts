@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SpotifyAuthService } from '../spotify-auth.service';
+import { SpotifyService } from '../spotify.service';
 import { getCookie, setCookie } from 'typescript-cookie';
 import { Router } from '@angular/router';
 
@@ -8,25 +8,18 @@ import { Router } from '@angular/router';
   templateUrl: './callback.component.html',
 })
 export class CallbackComponent implements OnInit {
-  constructor(
-    private authService: SpotifyAuthService,
-    private router: Router
-  ) {}
+  constructor(private spotifyService: SpotifyService, private router: Router) {}
 
   ngOnInit() {
-    console.log('authenticated');
-    const authToken = getCookie('authToken');
-    if (!authToken) {
-      console.log('getting authToken');
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const code = urlParams.get('code');
+    console.log('getting authToken');
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const code = urlParams.get('code');
 
-      setCookie('code', code);
+    setCookie('code', code);
 
-      console.log('code', code);
-      this.authService.handleAuthCallback();
-    }
+    console.log('code', code);
+    this.spotifyService.handleAuthCallback();
   }
 
   goToHome() {
